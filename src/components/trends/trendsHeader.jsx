@@ -26,6 +26,7 @@ import './trendsHeader.less';
 export default class TrendsHeader extends React.Component {
     static propTypes = {
         trendsSearchStore: PropTypes.object.isRequired,
+        serviceSummaryStore: PropTypes.object.isRequired,
         serviceName: PropTypes.string.isRequired,
         location: PropTypes.object.isRequired,
         history: PropTypes.object.isRequired
@@ -82,6 +83,7 @@ export default class TrendsHeader extends React.Component {
             from: window.from,
             until: window.until
         };
+        this.props.serviceSummaryStore.fetchServiceSummaryResults(serviceName, query, window.isCustomTimeRange);
         this.props.trendsSearchStore.fetchTrendServiceResults(serviceName, query, window.isCustomTimeRange, operationName);
     }
 
@@ -126,13 +128,20 @@ export default class TrendsHeader extends React.Component {
 
         const selectedIndex = options.indexOf(activeWindow);
 
-        return (<div className="clearfix">
-                <div className="pull-right">
-                    <span>Showing summary for </span>
-                    <select className="trend-summary__time-range-selector" value={selectedIndex} onChange={this.handleTimeChange}>
-                        {options.map((window, index) => (<option key={window.longName} value={index}>{window.isCustomTimeRange ? '' : 'last'} {window.longName}</option>))}
-                    </select>
-                </div>
+        return (
+            <div className="pull-right">
+                <span>Showing summary for </span>
+                <select
+                    className="trend-summary__time-range-selector"
+                    value={selectedIndex}
+                    onChange={this.handleTimeChange}
+                >
+                    {options.map((window, index) => (
+                        <option
+                            key={window.longName}
+                            value={index}
+                        >{window.isCustomTimeRange ? '' : 'last'} {window.longName}</option>))}
+                </select>
             </div>
         );
     }

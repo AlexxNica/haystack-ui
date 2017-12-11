@@ -126,7 +126,7 @@ export default class TrendResultsTable extends React.Component {
     }
 
     componentDidMount() {
-        const opName = this.props.trendsSearchStore.serviceQuery.operationName;
+        const opName = this.props.trendsSearchStore.summaryQuery.operationName;
         if (opName) {
             this.handleExpand(opName, true);
         }
@@ -152,7 +152,7 @@ export default class TrendResultsTable extends React.Component {
 
     expandComponent(row) {
         if (this.state.selected.filter(id => id === row.operationName).length > 0) {
-            return <TrendDetails store={this.props.trendsSearchStore} location={this.props.location} serviceName={this.props.serviceName} opName={row.operationName} />;
+            return <TrendDetails serviceSummary={false} store={this.props.trendsSearchStore} location={this.props.location} serviceName={this.props.serviceName} opName={row.operationName} />;
         }
         return null;
     }
@@ -160,7 +160,7 @@ export default class TrendResultsTable extends React.Component {
     render() {
         const tableHeaderRightAlignedStyle = {border: 'none', textAlign: 'right'};
         const tableHeaderStyle = {border: 'none'};
-        const operation = this.props.trendsSearchStore.serviceQuery.operationName;
+        const operation = this.props.trendsSearchStore.summaryQuery.operationName;
         const filter = operation
             ? {type: 'TextFilter', defaultValue: operation, placeholder: 'Search Operations...'}
             : {type: 'TextFilter', placeholder: 'Search Operations...'};
@@ -196,7 +196,7 @@ export default class TrendResultsTable extends React.Component {
         return (
             <BootstrapTable
                 className="trends-panel"
-                data={this.props.trendsSearchStore.serviceResults}
+                data={this.props.trendsSearchStore.summaryResults}
                 tableStyle={{border: 'none'}}
                 trClassName="tr-no-border"
                 expandableRow={() => true}
